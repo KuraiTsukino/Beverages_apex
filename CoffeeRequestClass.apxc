@@ -1,0 +1,110 @@
+public class CoffeeRequestClass {
+    public static void llamarEndpoint (String tipo){
+        Http http = new Http();
+        HttpRequest request = new HttpRequest ();
+        request.setEndpoint ('https://api.sampleapis.com/coffee/' +tipo);
+        request.setMethod('GET');
+        HttpResponse response = http.send(request);
+        System.debug(response.getStatusCode());
+        
+        String responseBody = response.getBody();
+        if (response.getStatusCode() == 200){
+            System.debug(response.getBody());
+        } 
+    }
+    
+    public static void ejemploGetHot (){
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://api.sampleapis.com/coffee/hot');
+        request.setMethod('GET');
+        HttpResponse response = http.send(request);
+        System.debug(response.getStatusCode());
+        
+        if(response.getStatusCode() == 200){
+           
+            List <Object> coffees = (List <Object>) JSON.deserializeUntyped(response.getBody());
+            
+            for (Object obj: coffees){
+                System.debug((Map<String, Object>)obj);
+                Map<String, Object> m = (Map <String, Object>) obj;
+                String title = (String)m.get('title');
+                List <String> titles = new List <String>();
+                	titles.add(title);
+                String description = (String)m.get('description');
+                /*List <Map<String, Object>> ingredients = new List <Map<String, Object>>();
+					for (Object : (List <Object>)m.get('ingredients'){ 
+                	ingredients.add((Map<String, Object>))}; */
+                System.debug(title);
+                System.debug(description);
+                System.debug(titles);
+                
+                List <Beverage__c> listaBebidas = new List <Beverage__c>();
+            	listaBebidas = [SELECT Name FROM Beverage__c];
+            	System.debug(listaBebidas);
+                
+                if(listaBebidas CONTAINS(title)) {
+                    
+                }
+                
+                
+            }                       
+        }  
+    } 
+    
+    public static void ejemploGetIced (){
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://api.sampleapis.com/coffee/iced');
+        request.setMethod('GET');
+        HttpResponse response = http.send(request);
+        System.debug(response.getStatusCode());
+        
+        if(response.getStatusCode() == 200){
+           
+            List <Object> coffeesI = (List <Object>) JSON.deserializeUntyped(response.getBody());
+            
+            for (Object obj: coffeesI){
+                System.debug((Map<String, Object>)obj);
+                Map<String, Object> mI = (Map <String, Object>) obj;
+                String title = (String)mI.get('title');
+                String description = (String)mI.get('description');
+                /*List <Map<String, Object>> ingredients = new List <Map<String, Object>>();
+					for (Object : (List <Object>)m.get('ingredients'){ 
+                	ingredients.add((Map<String, Object>))}; */
+                System.debug(title);
+                System.debug(description);
+                
+                List <Beverage__c> listaBebidas = new List <Beverage__c>();
+            	listaBebidas = [SELECT Name FROM Beverage__c];
+            	System.debug(listaBebidas);
+                
+                //System.assertEquals(Beverage__c.Name, title);
+            }                       
+        }  
+    }
+    
+    public static void ejemploPostHot (){
+        Http http = new Http ();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://api.sampleapis.com/coffee/hot');
+        request.setMethod('POST');
+        request.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        request.setBody('{"title": "café lechero", "description": "café con leche", "ingredients": ["milk", "coffee"]}');
+        HttpResponse response = http.send(request);
+        System.debug(response.getStatusCode());
+        System.debug(response.getBody());
+    }
+    
+    public static void ejemploPostIced (){
+        Http http = new Http ();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://api.sampleapis.com/coffee/iced');
+        request.setMethod('POST');
+        request.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        request.setBody('{"title": "frapuchino", "description": "capuchino frappe", "ingredients": ["milk", "coffee"]}');
+        HttpResponse response = http.send(request);
+        System.debug(response.getStatusCode());
+        System.debug(response.getBody());
+    } 
+}
