@@ -43,11 +43,16 @@ public class CoffeeRequestClass {
             	listaBebidas = [SELECT Name FROM Beverage__c];
             	System.debug(listaBebidas);
                 
-                if(listaBebidas CONTAINS(title)) {
-                    
-                }
-                
-                
+                if(listaBebidas.equals(titles)){
+                    System.debug('El menú está actualizado');
+                } else {
+                    List <Beverage__c> bebidas = new list <Beverage__c>();
+                		for (Integer b = 0; b <titles.size(); b++){
+                    	bebidas.add(new Beverage__c (Name = title,
+                                                 	Description__c = description));
+                		}
+                insert bebidas;
+                } 
             }                       
         }  
     } 
