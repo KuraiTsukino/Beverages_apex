@@ -29,20 +29,19 @@ public class CoffeeRequestClass {
                 System.debug((Map<String, Object>)obj);
                 Map<String, Object> m = (Map <String, Object>) obj;
                 String title = (String)m.get('title');
-                List <String> titles = new List <String>();
-                	titles.add(title);
                 String description = (String)m.get('description');
-                /*List <Map<String, Object>> ingredients = new List <Map<String, Object>>();
-					for (Object : (List <Object>)m.get('ingredients'){ 
-                	ingredients.add((Map<String, Object>))}; */
+     
                 System.debug(title);
                 System.debug(description);
-                System.debug(titles);
                 
                 List <Beverage__c> listaBebidas = new List <Beverage__c>();
             	listaBebidas = [SELECT Name FROM Beverage__c];
             	System.debug(listaBebidas);
                 
+                List <String> titles = new List <String>();
+                	titles.add(title);
+                System.debug(titles);
+                 
                 if(listaBebidas.equals(titles)){
                     System.debug('El menú está actualizado');
                 } else {
@@ -53,9 +52,9 @@ public class CoffeeRequestClass {
                 		}
                 insert bebidas;
                 } 
-            }                       
-        }  
-    } 
+             } 
+         }       	
+    }   
     
     public static void ejemploGetIced (){
         Http http = new Http();
@@ -74,9 +73,7 @@ public class CoffeeRequestClass {
                 Map<String, Object> mI = (Map <String, Object>) obj;
                 String title = (String)mI.get('title');
                 String description = (String)mI.get('description');
-                /*List <Map<String, Object>> ingredients = new List <Map<String, Object>>();
-					for (Object : (List <Object>)m.get('ingredients'){ 
-                	ingredients.add((Map<String, Object>))}; */
+               
                 System.debug(title);
                 System.debug(description);
                 
@@ -84,7 +81,20 @@ public class CoffeeRequestClass {
             	listaBebidas = [SELECT Name FROM Beverage__c];
             	System.debug(listaBebidas);
                 
-                //System.assertEquals(Beverage__c.Name, title);
+                List <String> titles = new List <String>();
+                	titles.add(title);
+                System.debug(titles);
+                
+               	if(listaBebidas.equals(titles)){
+                    System.debug('El menú está actualizado');
+                } else {
+                    List <Beverage__c> bebidas = new list <Beverage__c>();
+                		for (Integer b = 0; b <titles.size(); b++){
+                    	bebidas.add(new Beverage__c (Name = title,
+                                                 	Description__c = description));
+                		}
+                insert bebidas;
+                }   
             }                       
         }  
     }
